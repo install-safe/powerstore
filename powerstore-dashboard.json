@@ -1,0 +1,356 @@
+{
+  "title": "Dell PowerStore 監控",
+  "uid": "dell-powerstore-v1",
+  "timezone": "browser",
+  "refresh": "1m",
+  "time": { "from": "now-6h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "PSU 健康狀態",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 4 },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "orientation": "horizontal",
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "mappings": [
+            { "type": "value", "options": { "1": { "text": "✓ 正常", "color": "green", "index": 0 } } },
+            { "type": "value", "options": { "0": { "text": "✗ 異常", "color": "red", "index": 1 } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_hardware_Power_Supply_state{IP=\"192.168.236.80\"}",
+          "legendFormat": "{{name}}",
+          "refId": "A",
+          "instant": true
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 2,
+      "title": "風扇狀態",
+      "type": "stat",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 4 },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "orientation": "horizontal",
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short",
+          "decimals": 0,
+          "mappings": [
+            { "type": "value", "options": { "1": { "text": "✓ 正常", "color": "green", "index": 0 } } },
+            { "type": "value", "options": { "0": { "text": "✗ 異常", "color": "red", "index": 1 } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_hardware_Fan_state{IP=\"192.168.236.80\"}",
+          "legendFormat": "{{name}}",
+          "refId": "A",
+          "instant": true
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 3,
+      "title": "電池狀態",
+      "type": "stat",
+      "gridPos": { "x": 0, "y": 4, "w": 8, "h": 3 },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "orientation": "horizontal",
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "1": { "text": "✓ 正常", "color": "green", "index": 0 } } },
+            { "type": "value", "options": { "0": { "text": "✗ 異常", "color": "red", "index": 1 } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_hardware_Battery_state{IP=\"192.168.236.80\"}",
+          "legendFormat": "{{name}}",
+          "refId": "A",
+          "instant": true
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 4,
+      "title": "硬碟狀態",
+      "type": "stat",
+      "gridPos": { "x": 8, "y": 4, "w": 8, "h": 3 },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none",
+        "textMode": "value_and_name"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "1": { "text": "✓ 正常", "color": "green", "index": 0 } } },
+            { "type": "value", "options": { "0": { "text": "✗ 異常", "color": "red", "index": 1 } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "count(powerstore_hardware_Drive_state{IP=\"192.168.236.80\"} == 1)",
+          "legendFormat": "正常硬碟數",
+          "refId": "A"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 5,
+      "title": "Appliance 健康狀態",
+      "type": "stat",
+      "gridPos": { "x": 16, "y": 4, "w": 8, "h": 3 },
+      "options": {
+        "reduceOptions": { "calcs": ["lastNotNull"] },
+        "colorMode": "background",
+        "graphMode": "none"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "✓ 正常", "color": "green", "index": 0 } } },
+            { "type": "value", "options": { "1": { "text": "⚠ 警告", "color": "yellow", "index": 1 } } },
+            { "type": "value", "options": { "2": { "text": "✗ 異常", "color": "red", "index": 2 } } }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "red", "value": 2 }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_appliance{IP=\"192.168.236.80\"}",
+          "legendFormat": "PST-DEMO-LAB",
+          "refId": "A"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 6,
+      "title": "IOPS 趨勢",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 7, "w": 12, "h": 7 },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "calcs": ["lastNotNull", "mean", "max"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "iops",
+          "custom": { "lineWidth": 2 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_perf_avg_read_iops{IP=\"192.168.236.80\"}",
+          "legendFormat": "Read IOPS",
+          "refId": "A"
+        },
+        {
+          "expr": "powerstore_perf_avg_write_iops{IP=\"192.168.236.80\"}",
+          "legendFormat": "Write IOPS",
+          "refId": "B"
+        },
+        {
+          "expr": "powerstore_perf_avg_total_iops{IP=\"192.168.236.80\"}",
+          "legendFormat": "Total IOPS",
+          "refId": "C"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 7,
+      "title": "延遲趨勢 (μs)",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 7, "w": 12, "h": 7 },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "calcs": ["lastNotNull", "mean", "max"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "µs",
+          "custom": { "lineWidth": 2 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_perf_avg_read_latency{IP=\"192.168.236.80\"}",
+          "legendFormat": "Read 延遲",
+          "refId": "A"
+        },
+        {
+          "expr": "powerstore_perf_avg_write_latency{IP=\"192.168.236.80\"}",
+          "legendFormat": "Write 延遲",
+          "refId": "B"
+        },
+        {
+          "expr": "powerstore_perf_avg_latency{IP=\"192.168.236.80\"}",
+          "legendFormat": "平均延遲",
+          "refId": "C"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 8,
+      "title": "頻寬趨勢 (Bytes/s)",
+      "type": "timeseries",
+      "gridPos": { "x": 0, "y": 14, "w": 12, "h": 7 },
+      "options": {
+        "legend": { "displayMode": "table", "placement": "right", "calcs": ["lastNotNull", "mean", "max"] }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "custom": { "lineWidth": 2 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_perf_avg_read_bandwidth{IP=\"192.168.236.80\"}",
+          "legendFormat": "Read 頻寬",
+          "refId": "A"
+        },
+        {
+          "expr": "powerstore_perf_avg_write_bandwidth{IP=\"192.168.236.80\"}",
+          "legendFormat": "Write 頻寬",
+          "refId": "B"
+        },
+        {
+          "expr": "powerstore_perf_avg_total_bandwidth{IP=\"192.168.236.80\"}",
+          "legendFormat": "Total 頻寬",
+          "refId": "C"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 9,
+      "title": "CPU 使用率",
+      "type": "timeseries",
+      "gridPos": { "x": 12, "y": 14, "w": 12, "h": 7 },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": { "lineWidth": 2, "fillOpacity": 20 },
+          "color": { "fixedColor": "orange", "mode": "fixed" }
+        }
+      },
+      "targets": [
+        {
+          "expr": "powerstore_perf_avg_io_workload_cpu_utilization{IP=\"192.168.236.80\"}",
+          "legendFormat": "IO CPU 使用率",
+          "refId": "A"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    },
+    {
+      "id": 10,
+      "title": "硬碟容量",
+      "type": "table",
+      "gridPos": { "x": 0, "y": 21, "w": 24, "h": 6 },
+      "options": {
+        "sortBy": [{ "displayName": "name" }]
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "custom": { "align": "left" }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "name" },
+            "properties": [{ "id": "custom.width", "value": 300 }]
+          }
+        ]
+      },
+      "targets": [
+        {
+          "expr": "powerstore_hardware_drive_size{IP=\"192.168.236.80\"}",
+          "legendFormat": "{{name}} ({{drive_type}})",
+          "refId": "A",
+          "instant": true,
+          "format": "table"
+        }
+      ],
+      "datasource": { "type": "prometheus" }
+    }
+  ],
+  "schemaVersion": 38,
+  "version": 1
+}
